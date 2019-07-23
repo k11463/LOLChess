@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="col lg-8 bg">
-      <form>
+      <div class="form">
         <div class="form-group">
           <label for="exampleInputEmail1">會員ID</label>
           <input
@@ -55,7 +55,7 @@
         <div class="form-group">
           <button class="btn btn-primary" @click="SignUp">註冊</button>
         </div>
-      </form>
+      </div>
     </div>
   </div>
 </template>

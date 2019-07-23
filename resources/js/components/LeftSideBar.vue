@@ -24,7 +24,7 @@
           data-parent="#accordionExample"
         >
           <div class="card-body">
-            <form v-if="!login">
+            <div v-if="!login" class="form">
               <div class="form-group">
                 <label for="exampleInputEmail1">帳號Account</label>
                 <input
@@ -33,6 +33,7 @@
                   id="exampleInputEmail1"
                   aria-describedby="emailHelp"
                   placeholder="Enter account"
+                  v-model="loginForm.account"
                 />
               </div>
               <div class="form-group">
@@ -42,6 +43,7 @@
                   class="form-control"
                   id="exampleInputPassword1"
                   placeholder="Password"
+                  v-model="loginForm.password"
                 />
               </div>
               <div class="form-group form-check">
@@ -49,10 +51,10 @@
                 <label class="form-check-label" for="exampleCheck1">記住帳號remenber account</label>
               </div>
               <div class="form-group">
-                <button type="submit" class="btn btn-primary">登入login</button>
+                <button class="btn btn-primary" @click="Login">登入login</button>
                 <button class="btn btn-secondary" style="float:right;">註冊帳號Signup</button>
               </div>
-            </form>
+            </div>
 
             <form v-if="login">
               <div class="form-group login">
@@ -80,7 +82,11 @@ export default {
   data() {
     return {
       switchStatus: true,
-      login: false
+      login: false,
+      loginForm: {
+        account: "",
+        password: ""
+      }
     };
   },
   computed: {
@@ -88,6 +94,19 @@ export default {
       return this.switchStatus
         ? "/images/Lock_open.jpg"
         : "/images/Lock_close.jpg";
+    }
+  },
+  methods: {
+    Login() {
+      axios
+        .post("/login", this.loginForm)
+        .then(res => {
+          localStorage.setItem("token", res.data.token);
+          window.location.reload();
+        })
+        .catch(err => {
+          alert(err);
+        });
     }
   }
 };

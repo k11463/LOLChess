@@ -15,4 +15,6 @@ Route::get('/', function () {
     return view('index');
 });
 
+Route::post('/login', 'UserController@login');
+
 Route::post('/signup', 'UserController@store');

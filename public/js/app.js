@@ -1914,17 +1914,33 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {},
   data: function data() {
     return {
       switchStatus: true,
-      login: false
+      login: false,
+      loginForm: {
+        account: "",
+        password: ""
+      }
     };
   },
   computed: {
     boxSwitchImgUrl: function boxSwitchImgUrl() {
       return this.switchStatus ? "/images/Lock_open.jpg" : "/images/Lock_close.jpg";
+    }
+  },
+  methods: {
+    Login: function Login() {
+      axios.post("/login", this.loginForm).then(function (res) {
+        localStorage.setItem("token", res.data.token);
+        window.location.reload();
+      })["catch"](function (err) {
+        alert(err);
+      });
     }
   }
 });
@@ -38057,24 +38073,115 @@ var render = function() {
               [
                 _c("div", { staticClass: "card-body" }, [
                   !_vm.login
-                    ? _c("form", [
+                    ? _c("div", { staticClass: "form" }, [
+                        _c("div", { staticClass: "form-group" }, [
+                          _c(
+                            "label",
+                            { attrs: { for: "exampleInputEmail1" } },
+                            [_vm._v("帳號Account")]
+                          ),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.loginForm.account,
+                                expression: "loginForm.account"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: {
+                              type: "account",
+                              id: "exampleInputEmail1",
+                              "aria-describedby": "emailHelp",
+                              placeholder: "Enter account"
+                            },
+                            domProps: { value: _vm.loginForm.account },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.loginForm,
+                                  "account",
+                                  $event.target.value
+                                )
+                              }
+                            }
+                          })
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "form-group" }, [
+                          _c(
+                            "label",
+                            { attrs: { for: "exampleInputPassword1" } },
+                            [_vm._v("密碼Password")]
+                          ),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.loginForm.password,
+                                expression: "loginForm.password"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: {
+                              type: "password",
+                              id: "exampleInputPassword1",
+                              placeholder: "Password"
+                            },
+                            domProps: { value: _vm.loginForm.password },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.loginForm,
+                                  "password",
+                                  $event.target.value
+                                )
+                              }
+                            }
+                          })
+                        ]),
+                        _vm._v(" "),
                         _vm._m(1),
                         _vm._v(" "),
-                        _vm._m(2),
-                        _vm._v(" "),
-                        _vm._m(3),
-                        _vm._v(" "),
-                        _vm._m(4)
+                        _c("div", { staticClass: "form-group" }, [
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-primary",
+                              on: { click: _vm.Login }
+                            },
+                            [_vm._v("登入login")]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-secondary",
+                              staticStyle: { float: "right" }
+                            },
+                            [_vm._v("註冊帳號Signup")]
+                          )
+                        ])
                       ])
                     : _vm._e(),
                   _vm._v(" "),
                   _vm.login
                     ? _c("form", [
-                        _vm._m(5),
+                        _vm._m(2),
                         _vm._v(" "),
-                        _vm._m(6),
+                        _vm._m(3),
                         _vm._v(" "),
-                        _vm._m(7)
+                        _vm._m(4)
                       ])
                     : _vm._e()
                 ])
@@ -38116,45 +38223,6 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group" }, [
-      _c("label", { attrs: { for: "exampleInputEmail1" } }, [
-        _vm._v("帳號Account")
-      ]),
-      _vm._v(" "),
-      _c("input", {
-        staticClass: "form-control",
-        attrs: {
-          type: "account",
-          id: "exampleInputEmail1",
-          "aria-describedby": "emailHelp",
-          placeholder: "Enter account"
-        }
-      })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group" }, [
-      _c("label", { attrs: { for: "exampleInputPassword1" } }, [
-        _vm._v("密碼Password")
-      ]),
-      _vm._v(" "),
-      _c("input", {
-        staticClass: "form-control",
-        attrs: {
-          type: "password",
-          id: "exampleInputPassword1",
-          placeholder: "Password"
-        }
-      })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("div", { staticClass: "form-group form-check" }, [
       _c("input", {
         staticClass: "form-check-input",
@@ -38165,24 +38233,6 @@ var staticRenderFns = [
         "label",
         { staticClass: "form-check-label", attrs: { for: "exampleCheck1" } },
         [_vm._v("記住帳號remenber account")]
-      )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group" }, [
-      _c(
-        "button",
-        { staticClass: "btn btn-primary", attrs: { type: "submit" } },
-        [_vm._v("登入login")]
-      ),
-      _vm._v(" "),
-      _c(
-        "button",
-        { staticClass: "btn btn-secondary", staticStyle: { float: "right" } },
-        [_vm._v("註冊帳號Signup")]
       )
     ])
   },
@@ -38240,7 +38290,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
     _c("div", { staticClass: "col lg-8 bg" }, [
-      _c("form", [
+      _c("div", { staticClass: "form" }, [
         _c("div", { staticClass: "form-group" }, [
           _c("label", { attrs: { for: "exampleInputEmail1" } }, [
             _vm._v("會員ID")
