@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
-@section('header')
+@section('left-sideBar')
 <left-sidebar></left-sidebar>
+@endsection
+
+@section('body-content')
+<home-view></home-view>
 @endsection

@@ -1,56 +1,72 @@
 <template>
-  <div class="row bgBox">
-    <div class="col-lg-2 bg" :class="{bg_open: !switchStatus}">
-      <span class="boxSwitch" @click="switchStatus = !switchStatus">
-        <img :src="boxSwitchImgUrl" alt />
-      </span>
-      <div class="accordion" id="accordionExample">
-        <div class="card">
-          <div class="card-header" id="headingOne">
-            <h2 class="mb-0">
-              <button
-                class="btn btn-link"
-                type="button"
-                data-toggle="collapse"
-                data-target="#collapseOne"
-              >會員登入</button>
-            </h2>
-          </div>
+  <div class="col-lg-2 bg" :class="{bg_open: !switchStatus}">
+    <span class="boxSwitch" @click="switchStatus = !switchStatus">
+      <img :src="boxSwitchImgUrl" alt />
+    </span>
 
-          <div
-            id="collapseOne"
-            class="collapse show"
-            aria-labelledby="headingOne"
-            data-parent="#accordionExample"
-          >
-            <div class="card-body">
-              <form>
-                <div class="form-group">
-                  <label for="exampleInputEmail1">帳號Account</label>
-                  <input
-                    type="account"
-                    class="form-control"
-                    id="exampleInputEmail1"
-                    aria-describedby="emailHelp"
-                    placeholder="Enter account"
-                  />
-                </div>
-                <div class="form-group">
-                  <label for="exampleInputPassword1">密碼Password</label>
-                  <input
-                    type="password"
-                    class="form-control"
-                    id="exampleInputPassword1"
-                    placeholder="Password"
-                  />
-                </div>
-                <div class="form-group form-check">
-                  <input type="checkbox" class="form-check-input" id="exampleCheck1" />
-                  <label class="form-check-label" for="exampleCheck1">記住帳號remenber account</label>
-                </div>
+    <div class="accordion" id="accordionExample">
+      <div class="card">
+        <div class="card-header" id="headingOne">
+          <h2 class="mb-0">
+            <button
+              class="btn btn-link"
+              type="button"
+              data-toggle="collapse"
+              data-target="#collapseOne"
+            >會員登入</button>
+          </h2>
+        </div>
+
+        <div
+          id="collapseOne"
+          class="collapse show"
+          aria-labelledby="headingOne"
+          data-parent="#accordionExample"
+        >
+          <div class="card-body">
+            <form v-if="!login">
+              <div class="form-group">
+                <label for="exampleInputEmail1">帳號Account</label>
+                <input
+                  type="account"
+                  class="form-control"
+                  id="exampleInputEmail1"
+                  aria-describedby="emailHelp"
+                  placeholder="Enter account"
+                />
+              </div>
+              <div class="form-group">
+                <label for="exampleInputPassword1">密碼Password</label>
+                <input
+                  type="password"
+                  class="form-control"
+                  id="exampleInputPassword1"
+                  placeholder="Password"
+                />
+              </div>
+              <div class="form-group form-check">
+                <input type="checkbox" class="form-check-input" id="exampleCheck1" />
+                <label class="form-check-label" for="exampleCheck1">記住帳號remenber account</label>
+              </div>
+              <div class="form-group">
                 <button type="submit" class="btn btn-primary">登入login</button>
-              </form>
-            </div>
+                <button class="btn btn-secondary" style="float:right;">註冊帳號Signup</button>
+              </div>
+            </form>
+
+            <form v-if="login">
+              <div class="form-group login">
+                會員名稱UserName：
+                <div class="name">會員名稱</div>
+              </div>
+              <div class="form-group login">
+                會員階級UserLevel：
+                <div class="name">銅牌</div>
+              </div>
+              <div class="form-group login">
+                <button type="submit" class="btn btn-primary">登出logout</button>
+              </div>
+            </form>
           </div>
         </div>
       </div>
@@ -60,9 +76,11 @@
 
 <script>
 export default {
+  mounted() {},
   data() {
     return {
-      switchStatus: true
+      switchStatus: true,
+      login: false
     };
   },
   computed: {
@@ -138,6 +156,24 @@ export default {
         border: none;
         text-decoration: none;
         outline: none;
+      }
+    }
+    .card-body {
+      .form-group {
+        font-size: 18px;
+        color: rgb(216, 183, 121);
+        .name {
+          border: 1px solid rgb(192, 159, 121);
+          float: left;
+          margin-left: 8px;
+          border-radius: 4px;
+          color: rgb(175, 139, 71);
+        }
+      }
+      .login {
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
     }
   }
