@@ -19,6 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('account');
             $table->string('password');
             $table->string('email');
+            $table->string('level')->default('青銅');
             $table->string('token');
             $table->timestamps();
         });

@@ -1916,15 +1916,47 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  mounted: function mounted() {},
+  mounted: function mounted() {
+    var _this = this;
+
+    if (localStorage.getItem("token") != null) {
+      axios.post("/loginOnlyToken", {
+        token: localStorage.getItem("token")
+      }).then(function (res) {
+        _this.login = true;
+        _this.user.name = res.data.name;
+        _this.user.level = res.data.level;
+      });
+    } else {
+      if (localStorage.getItem("rememberAccount") != null) {
+        this.loginForm.account = localStorage.getItem("rememberAccount");
+        this.rememberAccount = true;
+      }
+
+      this.login = false;
+    }
+  },
   data: function data() {
     return {
       switchStatus: true,
-      login: false,
+      rememberAccount: false,
+      login: null,
       loginForm: {
         account: "",
         password: ""
+      },
+      user: {
+        name: "",
+        level: ""
       }
     };
   },
@@ -1935,12 +1967,26 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     Login: function Login() {
+      var _this2 = this;
+
       axios.post("/login", this.loginForm).then(function (res) {
-        localStorage.setItem("token", res.data.token);
-        window.location.reload();
+        if (res.data.error == undefined) {
+          if (_this2.rememberAccount) {
+            localStorage.setItem("rememberAccount", res.data.account);
+          }
+
+          localStorage.setItem("token", res.data.token);
+          window.location.reload();
+        } else {
+          alert(res.data.error);
+        }
       })["catch"](function (err) {
         alert(err);
       });
+    },
+    Logout: function Logout() {
+      localStorage.removeItem("token");
+      window.location.reload();
     }
   }
 });
@@ -1956,6 +2002,11 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2034,10 +2085,15 @@ __webpack_require__.r(__webpack_exports__);
     SignUp: function SignUp() {
       if (this.form.password == this.form.confirmPassword) {
         axios.post("/signup", this.form).then(function (res) {
-          alert("success");
-          console.log(res.data);
+          if (res.data.error == undefined) {
+            alert("註冊成功");
+            window.location.reload();
+            console.log("d1s2a6d4");
+          } else {
+            alert(res.data.error);
+          }
         })["catch"](function (err) {
-          alert(err);
+          console.log(err);
         });
       } else {
         alert("密碼不一樣,請重新輸入!");
@@ -6505,7 +6561,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "@charset \"UTF-8\";\n*[data-v-22871d9a] {\n  font-family: \"\\6A19\\6977\\9AD4\";\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none;\n}\n.bg[data-v-22871d9a] {\n  border: 1px solid #a5a5a5;\n  height: 80vh;\n  min-height: 680px;\n  margin-top: 80px;\n  box-shadow: -2px 4px 6px 0px rgba(0, 0, 0, 0.4);\n  position: relative;\n  transform: translateX(0%);\n  transition: 0.8s;\n}\n.bg .boxSwitch[data-v-22871d9a] {\n  width: 52px;\n  height: 52px;\n  left: 100%;\n  bottom: 50%;\n  border: 1px solid #acacac;\n  z-index: 1;\n  position: absolute;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  cursor: pointer;\n}\n.bg .boxSwitch img[data-v-22871d9a] {\n  width: 100%;\n}\n.bg .accordion[data-v-22871d9a] {\n  z-index: 0;\n  width: 105%;\n}\n.bg .accordion .card-header[data-v-22871d9a] {\n  background-color: #fff7d2;\n  height: 48px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n.bg .accordion .card-header button[data-v-22871d9a] {\n  font-size: 20px;\n  letter-spacing: 8px;\n  color: #d8b779;\n  font-weight: bold;\n  outline: none;\n  border: none;\n  text-decoration: none;\n}\n.bg .accordion .card-header button[data-v-22871d9a]:hover {\n  border: none;\n  text-decoration: none;\n  outline: none;\n}\n.bg .accordion .card-header button[data-v-22871d9a]:active {\n  border: none;\n  text-decoration: none;\n  outline: none;\n}\n.bg .accordion .card-header button[data-v-22871d9a]:focus {\n  border: none;\n  text-decoration: none;\n  outline: none;\n}\n.bg .accordion .card-body .form-group[data-v-22871d9a] {\n  font-size: 18px;\n  color: #d8b779;\n}\n.bg .accordion .card-body .form-group .name[data-v-22871d9a] {\n  border: 1px solid #c09f79;\n  float: left;\n  margin-left: 8px;\n  border-radius: 4px;\n  color: #af8b47;\n}\n.bg .accordion .card-body .login[data-v-22871d9a] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n.bg_open[data-v-22871d9a] {\n  transform: translateX(-95%);\n}", ""]);
+exports.push([module.i, "@charset \"UTF-8\";\n*[data-v-22871d9a] {\n  font-family: \"\\6A19\\6977\\9AD4\";\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none;\n}\n.bg[data-v-22871d9a] {\n  border: 1px solid #a5a5a5;\n  height: 80vh;\n  min-height: 680px;\n  margin-top: 80px;\n  box-shadow: -2px 4px 6px 0px rgba(0, 0, 0, 0.4);\n  position: relative;\n  transform: translateX(0%);\n  transition: 0.8s;\n}\n.bg .boxSwitch[data-v-22871d9a] {\n  width: 52px;\n  height: 52px;\n  left: 100%;\n  bottom: 50%;\n  border: 1px solid #acacac;\n  z-index: 1;\n  position: absolute;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  cursor: pointer;\n}\n.bg .boxSwitch img[data-v-22871d9a] {\n  width: 100%;\n}\n.bg .accordion[data-v-22871d9a] {\n  z-index: 0;\n  width: 100%;\n}\n.bg .accordion .card-header[data-v-22871d9a] {\n  background-color: #fff7d2;\n  height: 48px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n.bg .accordion .card-header button[data-v-22871d9a] {\n  font-size: 20px;\n  letter-spacing: 8px;\n  color: #d8b779;\n  font-weight: bold;\n  outline: none;\n  border: none;\n  text-decoration: none;\n}\n.bg .accordion .card-header button[data-v-22871d9a]:hover {\n  border: none;\n  text-decoration: none;\n  outline: none;\n}\n.bg .accordion .card-header button[data-v-22871d9a]:active {\n  border: none;\n  text-decoration: none;\n  outline: none;\n}\n.bg .accordion .card-header button[data-v-22871d9a]:focus {\n  border: none;\n  text-decoration: none;\n  outline: none;\n}\n.bg .accordion .card-body .form-group[data-v-22871d9a] {\n  font-size: 18px;\n  color: #d8b779;\n}\n.bg .accordion .card-body .form-group .name[data-v-22871d9a] {\n  border: 1px solid #c09f79;\n  float: left;\n  margin-left: 8px;\n  border-radius: 4px;\n  color: #af8b47;\n}\n.bg .accordion .card-body .login[data-v-22871d9a] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n.bg_open[data-v-22871d9a] {\n  transform: translateX(-95%);\n}", ""]);
 
 // exports
 
@@ -6524,7 +6580,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".bg[data-v-576c2170] {\n  float: left;\n  height: 97vh;\n}", ""]);
+exports.push([module.i, ".bg[data-v-576c2170] {\n  height: 97vh;\n}", ""]);
 
 // exports
 
@@ -38038,7 +38094,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "col-lg-2 bg", class: { bg_open: !_vm.switchStatus } },
+    { staticClass: "bg", class: { bg_open: !_vm.switchStatus } },
     [
       _c(
         "span",
@@ -38099,6 +38155,21 @@ var render = function() {
                             },
                             domProps: { value: _vm.loginForm.account },
                             on: {
+                              keyup: function($event) {
+                                if (
+                                  !$event.type.indexOf("key") &&
+                                  _vm._k(
+                                    $event.keyCode,
+                                    "enter",
+                                    13,
+                                    $event.key,
+                                    "Enter"
+                                  )
+                                ) {
+                                  return null
+                                }
+                                return _vm.Login($event)
+                              },
                               input: function($event) {
                                 if ($event.target.composing) {
                                   return
@@ -38137,6 +38208,21 @@ var render = function() {
                             },
                             domProps: { value: _vm.loginForm.password },
                             on: {
+                              keyup: function($event) {
+                                if (
+                                  !$event.type.indexOf("key") &&
+                                  _vm._k(
+                                    $event.keyCode,
+                                    "enter",
+                                    13,
+                                    $event.key,
+                                    "Enter"
+                                  )
+                                ) {
+                                  return null
+                                }
+                                return _vm.Login($event)
+                              },
                               input: function($event) {
                                 if ($event.target.composing) {
                                   return
@@ -38151,7 +38237,27 @@ var render = function() {
                           })
                         ]),
                         _vm._v(" "),
-                        _vm._m(1),
+                        _c("div", { staticClass: "form-group form-check" }, [
+                          _c("input", {
+                            staticClass: "form-check-input",
+                            attrs: { type: "checkbox", id: "exampleCheck1" },
+                            domProps: { checked: _vm.rememberAccount },
+                            on: {
+                              click: function($event) {
+                                _vm.rememberAccount = !_vm.rememberAccount
+                              }
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c(
+                            "label",
+                            {
+                              staticClass: "form-check-label",
+                              attrs: { for: "exampleCheck1" }
+                            },
+                            [_vm._v("記住帳號remenber account")]
+                          )
+                        ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "form-group" }, [
                           _c(
@@ -38176,12 +38282,36 @@ var render = function() {
                     : _vm._e(),
                   _vm._v(" "),
                   _vm.login
-                    ? _c("form", [
-                        _vm._m(2),
+                    ? _c("div", { staticClass: "form" }, [
+                        _c("div", { staticClass: "form-group login" }, [
+                          _vm._v(
+                            "\n              會員名稱UserName：\n              "
+                          ),
+                          _c("div", { staticClass: "name" }, [
+                            _vm._v(_vm._s(_vm.user.name))
+                          ])
+                        ]),
                         _vm._v(" "),
-                        _vm._m(3),
+                        _c("div", { staticClass: "form-group login" }, [
+                          _vm._v(
+                            "\n              會員階級UserLevel：\n              "
+                          ),
+                          _c("div", { staticClass: "name" }, [
+                            _vm._v(_vm._s(_vm.user.level))
+                          ])
+                        ]),
                         _vm._v(" "),
-                        _vm._m(4)
+                        _c("div", { staticClass: "form-group login" }, [
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-primary",
+                              attrs: { type: "submit" },
+                              on: { click: _vm.Logout }
+                            },
+                            [_vm._v("登出logout")]
+                          )
+                        ])
                       ])
                     : _vm._e()
                 ])
@@ -38218,53 +38348,6 @@ var staticRenderFns = [
         ])
       ]
     )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group form-check" }, [
-      _c("input", {
-        staticClass: "form-check-input",
-        attrs: { type: "checkbox", id: "exampleCheck1" }
-      }),
-      _vm._v(" "),
-      _c(
-        "label",
-        { staticClass: "form-check-label", attrs: { for: "exampleCheck1" } },
-        [_vm._v("記住帳號remenber account")]
-      )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group login" }, [
-      _vm._v("\n              會員名稱UserName：\n              "),
-      _c("div", { staticClass: "name" }, [_vm._v("會員名稱")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group login" }, [
-      _vm._v("\n              會員階級UserLevel：\n              "),
-      _c("div", { staticClass: "name" }, [_vm._v("銅牌")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group login" }, [
-      _c(
-        "button",
-        { staticClass: "btn btn-primary", attrs: { type: "submit" } },
-        [_vm._v("登出logout")]
-      )
-    ])
   }
 ]
 render._withStripped = true
@@ -38289,7 +38372,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
-    _c("div", { staticClass: "col lg-8 bg" }, [
+    _c("div", { staticClass: "bg mt-5" }, [
       _c("div", { staticClass: "form" }, [
         _c("div", { staticClass: "form-group" }, [
           _c("label", { attrs: { for: "exampleInputEmail1" } }, [
@@ -38313,6 +38396,15 @@ var render = function() {
             },
             domProps: { value: _vm.form.name },
             on: {
+              keyup: function($event) {
+                if (
+                  !$event.type.indexOf("key") &&
+                  _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
+                ) {
+                  return null
+                }
+                return _vm.SignUp($event)
+              },
               input: function($event) {
                 if ($event.target.composing) {
                   return
@@ -38345,6 +38437,15 @@ var render = function() {
             },
             domProps: { value: _vm.form.account },
             on: {
+              keyup: function($event) {
+                if (
+                  !$event.type.indexOf("key") &&
+                  _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
+                ) {
+                  return null
+                }
+                return _vm.SignUp($event)
+              },
               input: function($event) {
                 if ($event.target.composing) {
                   return
@@ -38377,6 +38478,15 @@ var render = function() {
             },
             domProps: { value: _vm.form.password },
             on: {
+              keyup: function($event) {
+                if (
+                  !$event.type.indexOf("key") &&
+                  _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
+                ) {
+                  return null
+                }
+                return _vm.SignUp($event)
+              },
               input: function($event) {
                 if ($event.target.composing) {
                   return
@@ -38409,6 +38519,15 @@ var render = function() {
             },
             domProps: { value: _vm.form.confirmPassword },
             on: {
+              keyup: function($event) {
+                if (
+                  !$event.type.indexOf("key") &&
+                  _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
+                ) {
+                  return null
+                }
+                return _vm.SignUp($event)
+              },
               input: function($event) {
                 if ($event.target.composing) {
                   return
@@ -38441,6 +38560,15 @@ var render = function() {
             },
             domProps: { value: _vm.form.email },
             on: {
+              keyup: function($event) {
+                if (
+                  !$event.type.indexOf("key") &&
+                  _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
+                ) {
+                  return null
+                }
+                return _vm.SignUp($event)
+              },
               input: function($event) {
                 if ($event.target.composing) {
                   return
@@ -50894,8 +51022,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\owuser\Desktop\lolchess\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\owuser\Desktop\lolchess\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\Owner\Desktop\lolchess\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\Owner\Desktop\lolchess\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

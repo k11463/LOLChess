@@ -16,5 +16,5 @@ Route::get('/', function () {
 });
 
 Route::post('/login', 'UserController@login');
-
+Route::post('loginOnlyToken', 'UserController@loginToken');
 Route::post('/signup', 'UserController@store');

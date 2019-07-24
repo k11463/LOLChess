@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="col lg-8 bg">
+    <div class="bg mt-5">
       <div class="form">
         <div class="form-group">
           <label for="exampleInputEmail1">會員ID</label>
@@ -10,6 +10,7 @@
             id="exampleInputEmail1"
             v-model="form.name"
             placeholder="name"
+            @keyup.enter="SignUp"
           />
         </div>
         <div class="form-group">
@@ -20,6 +21,7 @@
             id="exampleInputEmail1"
             v-model="form.account"
             placeholder="account"
+            @keyup.enter="SignUp"
           />
         </div>
         <div class="form-group">
@@ -30,6 +32,7 @@
             id="exampleInputPassword1"
             placeholder="password"
             v-model="form.password"
+            @keyup.enter="SignUp"
           />
         </div>
         <div class="form-group">
@@ -40,6 +43,7 @@
             id="exampleInputPassword1"
             placeholder="confirm_password"
             v-model="form.confirmPassword"
+            @keyup.enter="SignUp"
           />
         </div>
         <div class="form-group">
@@ -50,6 +54,7 @@
             id="exampleInputPassword1"
             v-model="form.email"
             placeholder="email"
+            @keyup.enter="SignUp"
           />
         </div>
         <div class="form-group">
@@ -79,11 +84,16 @@ export default {
         axios
           .post("/signup", this.form)
           .then(res => {
-            alert("success");
-            console.log(res.data);
+            if (res.data.error == undefined) {
+              alert("註冊成功");
+              window.location.reload();
+              console.log("d1s2a6d4");
+            } else {
+              alert(res.data.error);
+            }
           })
           .catch(err => {
-            alert(err);
+            console.log(err);
           });
       } else {
         alert("密碼不一樣,請重新輸入!");
@@ -95,7 +105,6 @@ export default {
 
 <style lang="scss" scoped>
 .bg {
-  float: left;
   height: 97vh;
 }
 </style>

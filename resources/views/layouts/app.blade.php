@@ -13,8 +13,13 @@
 <body>
     <div id="app">
         <div class="row">
-            @yield('left-sideBar')
-            @yield('body-content')
+            <div class="col-lg-2" style="z-index: 1;">
+                @yield('left-sideBar')
+            </div>
+            <div class="col-lg-8" style="z-index: 0;">
+                @yield('body-content')
+            </div>
+            <div class="col-lg-2"></div>
         </div>
     </div>
 </body>

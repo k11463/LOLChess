@@ -1,5 +1,5 @@
 <template>
-  <div class="col-lg-2 bg" :class="{bg_open: !switchStatus}">
+  <div class="bg" :class="{bg_open: !switchStatus}">
     <span class="boxSwitch" @click="switchStatus = !switchStatus">
       <img :src="boxSwitchImgUrl" alt />
     </span>
@@ -34,6 +34,7 @@
                   aria-describedby="emailHelp"
                   placeholder="Enter account"
                   v-model="loginForm.account"
+                  @keyup.enter="Login"
                 />
               </div>
               <div class="form-group">
@@ -44,10 +45,17 @@
                   id="exampleInputPassword1"
                   placeholder="Password"
                   v-model="loginForm.password"
+                  @keyup.enter="Login"
                 />
               </div>
               <div class="form-group form-check">
-                <input type="checkbox" class="form-check-input" id="exampleCheck1" />
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  id="exampleCheck1"
+                  :checked="rememberAccount"
+                  @click="rememberAccount = !rememberAccount"
+                />
                 <label class="form-check-label" for="exampleCheck1">記住帳號remenber account</label>
               </div>
               <div class="form-group">
@@ -56,19 +64,19 @@
               </div>
             </div>
 
-            <form v-if="login">
+            <div class="form" v-if="login">
               <div class="form-group login">
                 會員名稱UserName：
-                <div class="name">會員名稱</div>
+                <div class="name">{{ user.name }}</div>
               </div>
               <div class="form-group login">
                 會員階級UserLevel：
-                <div class="name">銅牌</div>
+                <div class="name">{{ user.level }}</div>
               </div>
               <div class="form-group login">
-                <button type="submit" class="btn btn-primary">登出logout</button>
+                <button type="submit" class="btn btn-primary" @click="Logout">登出logout</button>
               </div>
-            </form>
+            </div>
           </div>
         </div>
       </div>
@@ -78,14 +86,37 @@
 
 <script>
 export default {
-  mounted() {},
+  mounted() {
+    if (localStorage.getItem("token") != null) {
+      axios
+        .post("/loginOnlyToken", {
+          token: localStorage.getItem("token")
+        })
+        .then(res => {
+          this.login = true;
+          this.user.name = res.data.name;
+          this.user.level = res.data.level;
+        });
+    } else {
+      if (localStorage.getItem("rememberAccount") != null) {
+        this.loginForm.account = localStorage.getItem("rememberAccount");
+        this.rememberAccount = true;
+      }
+      this.login = false;
+    }
+  },
   data() {
     return {
       switchStatus: true,
-      login: false,
+      rememberAccount: false,
+      login: null,
       loginForm: {
         account: "",
         password: ""
+      },
+      user: {
+        name: "",
+        level: ""
       }
     };
   },
@@ -101,12 +132,23 @@ export default {
       axios
         .post("/login", this.loginForm)
         .then(res => {
-          localStorage.setItem("token", res.data.token);
-          window.location.reload();
+          if (res.data.error == undefined) {
+            if (this.rememberAccount) {
+              localStorage.setItem("rememberAccount", res.data.account);
+            }
+            localStorage.setItem("token", res.data.token);
+            window.location.reload();
+          } else {
+            alert(res.data.error);
+          }
         })
         .catch(err => {
           alert(err);
         });
+    },
+    Logout() {
+      localStorage.removeItem("token");
+      window.location.reload();
     }
   }
 };
@@ -145,7 +187,7 @@ export default {
   }
   .accordion {
     z-index: 0;
-    width: 105%;
+    width: 100%;
     .card-header {
       background-color: rgb(255, 247, 210);
       height: 48px;
