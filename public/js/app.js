@@ -2069,6 +2069,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2078,11 +2091,14 @@ __webpack_require__.r(__webpack_exports__);
         password: "",
         confirmPassword: "",
         email: ""
-      }
+      },
+      errors: []
     };
   },
   methods: {
     SignUp: function SignUp() {
+      var _this = this;
+
       if (this.form.password == this.form.confirmPassword) {
         axios.post("/signup", this.form).then(function (res) {
           if (res.data.error == undefined) {
@@ -2093,7 +2109,12 @@ __webpack_require__.r(__webpack_exports__);
             alert(res.data.error);
           }
         })["catch"](function (err) {
-          console.log(err);
+          // err.response.data.errors;
+          _this.errors.length = 0;
+          Object.keys(err.response.data.errors).forEach(function (key) {
+            _this.errors.push(err.response.data.errors[key][0]); //   console.log(err.response.data.errors[key][0]);
+
+          });
         });
       } else {
         alert("密碼不一樣,請重新輸入!");
@@ -6561,7 +6582,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "@charset \"UTF-8\";\n*[data-v-22871d9a] {\n  font-family: \"\\6A19\\6977\\9AD4\";\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none;\n}\n.bg[data-v-22871d9a] {\n  border: 1px solid #a5a5a5;\n  height: 80vh;\n  min-height: 680px;\n  margin-top: 80px;\n  box-shadow: -2px 4px 6px 0px rgba(0, 0, 0, 0.4);\n  position: relative;\n  transform: translateX(0%);\n  transition: 0.8s;\n}\n.bg .boxSwitch[data-v-22871d9a] {\n  width: 52px;\n  height: 52px;\n  left: 100%;\n  bottom: 50%;\n  border: 1px solid #acacac;\n  z-index: 1;\n  position: absolute;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  cursor: pointer;\n}\n.bg .boxSwitch img[data-v-22871d9a] {\n  width: 100%;\n}\n.bg .accordion[data-v-22871d9a] {\n  z-index: 0;\n  width: 100%;\n}\n.bg .accordion .card-header[data-v-22871d9a] {\n  background-color: #fff7d2;\n  height: 48px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n.bg .accordion .card-header button[data-v-22871d9a] {\n  font-size: 20px;\n  letter-spacing: 8px;\n  color: #d8b779;\n  font-weight: bold;\n  outline: none;\n  border: none;\n  text-decoration: none;\n}\n.bg .accordion .card-header button[data-v-22871d9a]:hover {\n  border: none;\n  text-decoration: none;\n  outline: none;\n}\n.bg .accordion .card-header button[data-v-22871d9a]:active {\n  border: none;\n  text-decoration: none;\n  outline: none;\n}\n.bg .accordion .card-header button[data-v-22871d9a]:focus {\n  border: none;\n  text-decoration: none;\n  outline: none;\n}\n.bg .accordion .card-body .form-group[data-v-22871d9a] {\n  font-size: 18px;\n  color: #d8b779;\n}\n.bg .accordion .card-body .form-group .name[data-v-22871d9a] {\n  border: 1px solid #c09f79;\n  float: left;\n  margin-left: 8px;\n  border-radius: 4px;\n  color: #af8b47;\n}\n.bg .accordion .card-body .login[data-v-22871d9a] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n.bg_open[data-v-22871d9a] {\n  transform: translateX(-95%);\n}", ""]);
+exports.push([module.i, "@charset \"UTF-8\";\n*[data-v-22871d9a] {\n  font-family: \"\\6A19\\6977\\9AD4\";\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none;\n}\n.bg[data-v-22871d9a] {\n  border: 1px solid #a5a5a5;\n  height: 80vh;\n  min-height: 680px;\n  margin-top: 80px;\n  box-shadow: -2px 4px 6px 0px rgba(0, 0, 0, 0.4);\n  position: relative;\n  transform: translateX(0%);\n  transition: 0.8s;\n}\n.bg .boxSwitch[data-v-22871d9a] {\n  width: 52px;\n  height: 52px;\n  left: 100%;\n  bottom: 50%;\n  border: 1px solid #acacac;\n  position: absolute;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  cursor: pointer;\n}\n.bg .boxSwitch img[data-v-22871d9a] {\n  width: 100%;\n}\n.bg .accordion[data-v-22871d9a] {\n  width: 100%;\n}\n.bg .accordion .card-header[data-v-22871d9a] {\n  background-color: #fff7d2;\n  height: 48px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n.bg .accordion .card-header button[data-v-22871d9a] {\n  font-size: 20px;\n  letter-spacing: 8px;\n  color: #d8b779;\n  font-weight: bold;\n  outline: none;\n  border: none;\n  text-decoration: none;\n}\n.bg .accordion .card-header button[data-v-22871d9a]:hover {\n  border: none;\n  text-decoration: none;\n  outline: none;\n}\n.bg .accordion .card-header button[data-v-22871d9a]:active {\n  border: none;\n  text-decoration: none;\n  outline: none;\n}\n.bg .accordion .card-header button[data-v-22871d9a]:focus {\n  border: none;\n  text-decoration: none;\n  outline: none;\n}\n.bg .accordion .card-body .form-group[data-v-22871d9a] {\n  font-size: 18px;\n  color: #d8b779;\n}\n.bg .accordion .card-body .form-group .name[data-v-22871d9a] {\n  border: 1px solid #c09f79;\n  float: left;\n  margin-left: 8px;\n  border-radius: 4px;\n  color: #af8b47;\n}\n.bg .accordion .card-body .login[data-v-22871d9a] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n.bg_open[data-v-22871d9a] {\n  transform: translateX(-95%);\n}", ""]);
 
 // exports
 
@@ -6580,7 +6601,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".bg[data-v-576c2170] {\n  height: 97vh;\n}", ""]);
+exports.push([module.i, ".bg[data-v-576c2170] {\n  height: 50vh;\n}\n.bg .modal-dialog[data-v-576c2170] {\n  z-index: 0;\n}\n.bg .modal-dialog .modal-content[data-v-576c2170] {\n  z-index: 0;\n}", ""]);
 
 // exports
 
@@ -38376,7 +38397,7 @@ var render = function() {
       _c("div", { staticClass: "form" }, [
         _c("div", { staticClass: "form-group" }, [
           _c("label", { attrs: { for: "exampleInputEmail1" } }, [
-            _vm._v("會員ID")
+            _vm._v("會員名稱")
           ]),
           _vm._v(" "),
           _c("input", {
@@ -38587,10 +38608,45 @@ var render = function() {
           )
         ])
       ])
-    ])
+    ]),
+    _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "errors" },
+      _vm._l(_vm.errors, function(error, id) {
+        return _c(
+          "div",
+          {
+            key: id,
+            staticClass: "alert alert-danger alert-dismissible fade show",
+            attrs: { role: "alert" }
+          },
+          [_vm._v("\n      " + _vm._s(error) + "\n      "), _vm._m(0, true)]
+        )
+      }),
+      0
+    )
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "close",
+        attrs: {
+          type: "button",
+          "data-dismiss": "alert",
+          "aria-label": "Close"
+        }
+      },
+      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+    )
+  }
+]
 render._withStripped = true
 
 

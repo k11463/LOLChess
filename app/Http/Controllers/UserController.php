@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Requests\UserStore;
 
 class ErrorMsg
 {
@@ -13,7 +14,7 @@ class ErrorMsg
 
 class UserController extends Controller
 {
-    public function store(Request $req)
+    public function store(UserStore $req)
     {
         $error = new ErrorMsg();
         if (User::where('name', '=', $req->name)->first()) {

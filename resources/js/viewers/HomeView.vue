@@ -3,7 +3,7 @@
     <div class="bg mt-5">
       <div class="form">
         <div class="form-group">
-          <label for="exampleInputEmail1">會員ID</label>
+          <label for="exampleInputEmail1">會員名稱</label>
           <input
             type="name"
             class="form-control"
@@ -62,6 +62,19 @@
         </div>
       </div>
     </div>
+    <div class="errors">
+      <div
+        class="alert alert-danger alert-dismissible fade show"
+        role="alert"
+        v-for="(error, id) in errors"
+        :key="id"
+      >
+        {{ error }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -75,7 +88,8 @@ export default {
         password: "",
         confirmPassword: "",
         email: ""
-      }
+      },
+      errors: []
     };
   },
   methods: {
@@ -93,7 +107,12 @@ export default {
             }
           })
           .catch(err => {
-            console.log(err);
+            // err.response.data.errors;
+            this.errors.length = 0;
+            Object.keys(err.response.data.errors).forEach(key => {
+              this.errors.push(err.response.data.errors[key][0]);
+              //   console.log(err.response.data.errors[key][0]);
+            });
           });
       } else {
         alert("密碼不一樣,請重新輸入!");
@@ -105,7 +124,13 @@ export default {
 
 <style lang="scss" scoped>
 .bg {
-  height: 97vh;
+  height: 50vh;
+  .modal-dialog {
+    z-index: 0;
+    .modal-content {
+      z-index: 0;
+    }
+  }
 }
 </style>
 

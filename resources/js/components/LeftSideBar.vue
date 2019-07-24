@@ -175,7 +175,6 @@ export default {
     left: 100%;
     bottom: 50%;
     border: 1px solid rgb(172, 172, 172);
-    z-index: 1;
     position: absolute;
     display: flex;
     align-items: center;
@@ -186,7 +185,6 @@ export default {
     }
   }
   .accordion {
-    z-index: 0;
     width: 100%;
     .card-header {
       background-color: rgb(255, 247, 210);
