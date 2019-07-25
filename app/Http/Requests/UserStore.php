@@ -40,6 +40,7 @@ class UserStore extends FormRequest
             'account.required' => '請填寫帳號',
             'account.min' => '帳號不可小於4個字',
             'account.max' => '帳號不可大於12個字',
+            'password.required' => '請填寫密碼',
             'password.min' => '帳號不可小於4個字',
             'password.max' => '帳號不可大於12個字',
             'email.required' => '請填寫Email',
