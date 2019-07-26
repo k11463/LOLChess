@@ -21,9 +21,10 @@ window.Vue = require("vue");
 
 Vue.component("home-view", require("./viewers/HomeView.vue").default);
 Vue.component("signup-view", require("./viewers/SignUpView.vue").default);
+Vue.component("signin-view", require("./viewers/SignInView.vue").default);
 
 Vue.component("left-sidebar", require("./components/LeftSideBar.vue").default);
-Vue.component("modal-alert", require("./components/ModalAlert.vue").default);
+Vue.component("error-alert", require("./components/ErrorAlert.vue").default);
 Vue.component("head-er", require("./components/Header.vue").default);
 
 /**

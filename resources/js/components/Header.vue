@@ -1,8 +1,8 @@
 <template>
   <div class="row">
     <div class="col-lg-6 col" v-for="(item, id) in items" :key="id" @click="ChangeUrl(item.url)">
-      <img width="128" v-if="nowLocation == item.url" src="/images/selected.png" alt />
-      <img width="104" v-if="nowLocation != item.url" src="/images/noSelect.png" alt />
+      <img width="128" v-if="item.isUrl" src="/images/selected.png" alt />
+      <img width="104" v-if="!item.isUrl" src="/images/noSelect.png" alt />
       <span>{{ item.title }}</span>
     </div>
   </div>
@@ -12,17 +12,27 @@
 export default {
   mounted() {
     this.nowLocation = window.location.href;
+    for (var i = 0; i < this.items.length; i++) {
+      if (
+        this.nowLocation ==
+        localStorage.getItem("index") + this.items[i].url
+      ) {
+        this.items[i].isUrl = true;
+      }
+    }
   },
   data() {
     return {
       items: [
         {
           title: "搜尋英雄",
-          url: "http://127.0.0.1:8000/"
+          url: "",
+          isUrl: false
         },
         {
           title: "裝備",
-          url: "http://127.0.0.1:8000/equip"
+          url: "equip",
+          isUrl: false
         }
       ],
       nowLocation: ""
@@ -30,7 +40,7 @@ export default {
   },
   methods: {
     ChangeUrl(val) {
-      window.location.href = val;
+      window.location.href = localStorage.getItem("index") + val;
     }
   }
 };
@@ -44,6 +54,9 @@ export default {
 }
 .row {
   background-color: rgb(208, 232, 255);
+  position: absolute;
+  width: 100vw;
+  z-index: 1;
   .col {
     border-top: 1px solid rgb(100, 127, 187);
     border-bottom: 1px solid rgb(100, 127, 187);

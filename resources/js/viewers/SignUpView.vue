@@ -1,70 +1,69 @@
 <template>
-  <div class="col-lg-8">
-    <ModalAlert :errors="errors" :openAlert="openAlert" @closeAlert="CloseAlert"></ModalAlert>
+  <div class="col-lg-8 bg">
+    <ErrorAlert :errors="errors" :openAlert="openAlert" @closeAlert="CloseAlert"></ErrorAlert>
     <div class="container" style="padding: 20px;">
       <div class="row">
         <div class="col-lg-2"></div>
         <div class="col-lg-8">
-          <div class="bg mt-5">
-            <div class="form">
-              <div class="form-group">
-                <label for="exampleInputEmail1">會員名稱</label>
-                <input
-                  type="name"
-                  class="form-control"
-                  id="exampleInputEmail1"
-                  v-model="form.name"
-                  placeholder="name"
-                  @keyup.enter="SignUp"
-                />
-              </div>
-              <div class="form-group">
-                <label for="exampleInputEmail1">會員帳號</label>
-                <input
-                  type="account"
-                  class="form-control"
-                  id="exampleInputEmail1"
-                  v-model="form.account"
-                  placeholder="account"
-                  @keyup.enter="SignUp"
-                />
-              </div>
-              <div class="form-group">
-                <label for="exampleInputPassword1">會員密碼</label>
-                <input
-                  type="password"
-                  class="form-control"
-                  id="exampleInputPassword1"
-                  placeholder="password"
-                  v-model="form.password"
-                  @keyup.enter="SignUp"
-                />
-              </div>
-              <div class="form-group">
-                <label for="exampleInputPassword1">密碼確認</label>
-                <input
-                  type="password"
-                  class="form-control"
-                  id="exampleInputPassword1"
-                  placeholder="confirm_password"
-                  v-model="form.confirmPassword"
-                  @keyup.enter="SignUp"
-                />
-              </div>
-              <div class="form-group">
-                <label for="exampleInputPassword1">會員信箱</label>
-                <input
-                  type="email"
-                  class="form-control"
-                  id="exampleInputPassword1"
-                  v-model="form.email"
-                  placeholder="email"
-                  @keyup.enter="SignUp"
-                />
-              </div>
-              <div class="form-group">
-                <button class="btn btn-primary" @click="SignUp">註冊</button>
-              </div>
+          <div class="title">會員註冊</div>
+          <div class="form">
+            <div class="form-group">
+              <label for="exampleInputEmail1">會員名稱UserName</label>
+              <input
+                type="name"
+                class="form-control"
+                id="exampleInputEmail1"
+                v-model="form.name"
+                placeholder="name"
+                @keyup.enter="SignUp"
+              />
+            </div>
+            <div class="form-group">
+              <label for="exampleInputEmail1">會員帳號Account</label>
+              <input
+                type="account"
+                class="form-control"
+                id="exampleInputEmail1"
+                v-model="form.account"
+                placeholder="account"
+                @keyup.enter="SignUp"
+              />
+            </div>
+            <div class="form-group">
+              <label for="exampleInputPassword1">會員密碼Password</label>
+              <input
+                type="password"
+                class="form-control"
+                id="exampleInputPassword1"
+                placeholder="password"
+                v-model="form.password"
+                @keyup.enter="SignUp"
+              />
+            </div>
+            <div class="form-group">
+              <label for="exampleInputPassword1">密碼確認ConfirmPassword</label>
+              <input
+                type="password"
+                class="form-control"
+                id="exampleInputPassword1"
+                placeholder="confirm_password"
+                v-model="form.confirmPassword"
+                @keyup.enter="SignUp"
+              />
+            </div>
+            <div class="form-group">
+              <label for="exampleInputPassword1">會員信箱Email</label>
+              <input
+                type="email"
+                class="form-control"
+                id="exampleInputPassword1"
+                v-model="form.email"
+                placeholder="email"
+                @keyup.enter="SignUp"
+              />
+            </div>
+            <div class="form-group">
+              <button class="btn btn-primary btn-lg btn-block mt-4" @click="SignUp">註冊</button>
             </div>
           </div>
         </div>
@@ -75,10 +74,10 @@
 </template>
 
 <script>
-import ModalAlert from "../components/ModalAlert.vue";
+import ErrorAlert from "../components/ErrorAlert.vue";
 export default {
   components: {
-    ModalAlert
+    ErrorAlert
   },
   data() {
     return {
@@ -132,13 +131,24 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+* {
+  font-family: "標楷體";
+}
 .bg {
   height: 50vh;
-  .modal-dialog {
-    z-index: 0;
-    .modal-content {
-      z-index: 0;
-    }
+  margin-top: 100px;
+  .title {
+    height: 56px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    font-size: 32px;
+  }
+  .form-group {
+    margin-top: 20px;
+  }
+  .form-group:last-child {
+    margin-top: 40px;
   }
 }
 </style>
