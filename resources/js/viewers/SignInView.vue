@@ -1,6 +1,11 @@
 <template>
   <div class="col-lg-8 bg">
     <ErrorAlert :errors="errors" :openAlert="openAlert" @closeAlert="CloseAlert"></ErrorAlert>
+    <SuccessAlert
+      :title="loginSuccess.title"
+      :url="loginSuccess.url"
+      :openAlert="loginSuccess.openAlert"
+    ></SuccessAlert>
     <div class="container">
       <div class="row">
         <div class="col-lg-2"></div>
@@ -58,6 +63,7 @@
 
 <script>
 import ErrorAlert from "../components/ErrorAlert.vue";
+import SuccessAlert from "../components/SuccessAlert.vue";
 export default {
   mounted() {
     if (localStorage.getItem("rememberAccount") != null) {
@@ -66,7 +72,8 @@ export default {
     }
   },
   components: {
-    ErrorAlert
+    ErrorAlert,
+    SuccessAlert
   },
   data() {
     return {
@@ -76,7 +83,12 @@ export default {
       },
       rememberAccount: false,
       errors: [],
-      openAlert: false
+      openAlert: false,
+      loginSuccess: {
+        title: "登入",
+        url: "",
+        openAlert: false
+      }
     };
   },
   methods: {
@@ -89,7 +101,7 @@ export default {
               localStorage.setItem("rememberAccount", res.data.account);
             }
             localStorage.setItem("token", res.data.token);
-            window.location.reload();
+            this.loginSuccess.openAlert = true;
           } else {
             this.openAlert = true;
             this.errors = [];

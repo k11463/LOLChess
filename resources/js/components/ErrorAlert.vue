@@ -4,15 +4,15 @@
     <button
       type="button"
       class="btn btn-primary"
-      id="btn"
+      id="errorBtn"
       data-toggle="modal"
-      data-target="#exampleModalCenter"
+      data-target="#errorModalCenter"
     >Launch demo modal</button>
 
     <!-- Modal -->
     <div
       class="modal fade"
-      id="exampleModalCenter"
+      id="errorModalCenter"
       tabindex="-1"
       role="dialog"
       aria-labelledby="exampleModalCenterTitle"
@@ -69,7 +69,7 @@ export default {
   watch: {
     openAlert() {
       if (this.openAlert) {
-        document.getElementById("btn").click();
+        document.getElementById("errorBtn").click();
       }
     }
   }

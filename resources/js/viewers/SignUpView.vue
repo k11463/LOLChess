@@ -1,6 +1,11 @@
 <template>
   <div class="col-lg-8 bg">
     <ErrorAlert :errors="errors" :openAlert="openAlert" @closeAlert="CloseAlert"></ErrorAlert>
+    <SuccessAlert
+      :title="signUpSuccess.title"
+      :url="signUpSuccess.url"
+      :openAlert="signUpSuccess.openAlert"
+    ></SuccessAlert>
     <div class="container" style="padding: 20px;">
       <div class="row">
         <div class="col-lg-2"></div>
@@ -75,9 +80,11 @@
 
 <script>
 import ErrorAlert from "../components/ErrorAlert.vue";
+import SuccessAlert from "../components/SuccessAlert.vue";
 export default {
   components: {
-    ErrorAlert
+    ErrorAlert,
+    SuccessAlert
   },
   data() {
     return {
@@ -89,7 +96,12 @@ export default {
         email: ""
       },
       errors: [],
-      openAlert: false
+      openAlert: false,
+      signUpSuccess: {
+        title: "註冊",
+        url: "signin",
+        openAlert: false
+      }
     };
   },
   methods: {
@@ -99,11 +111,11 @@ export default {
           .post("/signup", this.form)
           .then(res => {
             if (res.data.error == undefined) {
-              alert("註冊成功");
-              window.location.reload();
-              console.log("d1s2a6d4");
+              this.signUpSuccess.openAlert = true;
             } else {
-              alert(res.data.error);
+              this.errors = [];
+              this.errors.push(res.data.error);
+              this.openAlert = true;
             }
           })
           .catch(err => {
@@ -111,7 +123,7 @@ export default {
             if (err.response.status == 422) {
               this.openAlert = true;
               this.errors = [];
-              console.log(this.errors);
+              //   console.log(this.errors);
               Object.keys(err.response.data.errors).forEach(key => {
                 this.errors.push(err.response.data.errors[key][0]);
                 //   console.log(err.response.data.errors[key][0]);
