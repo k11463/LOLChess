@@ -20,7 +20,11 @@ window.Vue = require("vue");
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
 Vue.component("home-view", require("./viewers/HomeView.vue").default);
+Vue.component("signup-view", require("./viewers/SignUpView.vue").default);
+
 Vue.component("left-sidebar", require("./components/LeftSideBar.vue").default);
+Vue.component("modal-alert", require("./components/ModalAlert.vue").default);
+Vue.component("head-er", require("./components/Header.vue").default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

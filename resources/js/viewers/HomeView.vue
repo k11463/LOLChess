@@ -1,78 +1,38 @@
 <template>
-  <div class="container">
-    <div class="bg mt-5">
-      <div class="form">
-        <div class="form-group">
-          <label for="exampleInputEmail1">會員名稱</label>
-          <input
-            type="name"
-            class="form-control"
-            id="exampleInputEmail1"
-            v-model="form.name"
-            placeholder="name"
-            @keyup.enter="SignUp"
-          />
-        </div>
-        <div class="form-group">
-          <label for="exampleInputEmail1">會員帳號</label>
-          <input
-            type="account"
-            class="form-control"
-            id="exampleInputEmail1"
-            v-model="form.account"
-            placeholder="account"
-            @keyup.enter="SignUp"
-          />
-        </div>
-        <div class="form-group">
-          <label for="exampleInputPassword1">會員密碼</label>
-          <input
-            type="password"
-            class="form-control"
-            id="exampleInputPassword1"
-            placeholder="password"
-            v-model="form.password"
-            @keyup.enter="SignUp"
-          />
-        </div>
-        <div class="form-group">
-          <label for="exampleInputPassword1">密碼確認</label>
-          <input
-            type="password"
-            class="form-control"
-            id="exampleInputPassword1"
-            placeholder="confirm_password"
-            v-model="form.confirmPassword"
-            @keyup.enter="SignUp"
-          />
-        </div>
-        <div class="form-group">
-          <label for="exampleInputPassword1">會員信箱</label>
-          <input
-            type="email"
-            class="form-control"
-            id="exampleInputPassword1"
-            v-model="form.email"
-            placeholder="email"
-            @keyup.enter="SignUp"
-          />
-        </div>
-        <div class="form-group">
-          <button class="btn btn-primary" @click="SignUp">註冊</button>
-        </div>
+  <div class="col-lg-8 bg">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 ad"></div>
       </div>
-    </div>
-    <div class="errors">
-      <div
-        class="alert alert-danger alert-dismissible fade show"
-        role="alert"
-        v-for="(error, id) in errors"
-        :key="id"
-      >
-        {{ error }}
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+      <div class="row">
+        <div class="col-lg-2">
+          <div class="bg" :class="{bg_open: !switchStatus}">
+            <div class="accordion" id="bloodAccordion">
+              <div class="card">
+                <div class="card-header" id="bloodHead">
+                  <h2 class="mb-0">
+                    <button
+                      class="btn btn-link"
+                      type="button"
+                      data-toggle="collapse"
+                      data-target="#bloodTarget"
+                    >種族</button>
+                  </h2>
+                </div>
+
+                <div
+                  id="bloodTarget"
+                  class="collapse show"
+                  aria-labelledby="bloodHead"
+                  data-parent="#bloodAccordion"
+                >
+                  <div class="card-body">Blood</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-10"></div>
       </div>
     </div>
   </div>
@@ -89,7 +49,8 @@ export default {
         confirmPassword: "",
         email: ""
       },
-      errors: []
+      errors: [],
+      openAlert: false
     };
   },
   methods: {
@@ -108,15 +69,23 @@ export default {
           })
           .catch(err => {
             // err.response.data.errors;
-            this.errors.length = 0;
-            Object.keys(err.response.data.errors).forEach(key => {
-              this.errors.push(err.response.data.errors[key][0]);
-              //   console.log(err.response.data.errors[key][0]);
-            });
+            if (err.response.status == 422) {
+              this.openAlert = true;
+              this.errors = [];
+              console.log(this.errors);
+              Object.keys(err.response.data.errors).forEach(key => {
+                this.errors.push(err.response.data.errors[key][0]);
+                //   console.log(err.response.data.errors[key][0]);
+              });
+            }
           });
       } else {
-        alert("密碼不一樣,請重新輸入!");
+        this.openAlert = true;
+        this.errors.push("密碼不一樣,請重新輸入!");
       }
+    },
+    CloseAlert(val) {
+      this.openAlert = val;
     }
   }
 };
@@ -124,12 +93,10 @@ export default {
 
 <style lang="scss" scoped>
 .bg {
-  height: 50vh;
-  .modal-dialog {
-    z-index: 0;
-    .modal-content {
-      z-index: 0;
-    }
+  height: 80vh;
+  .ad {
+    border: 1px solid #000;
+    height: 100px;
   }
 }
 </style>

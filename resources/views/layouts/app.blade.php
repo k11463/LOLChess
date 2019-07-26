@@ -12,14 +12,10 @@
 
 <body>
     <div id="app">
+        @yield('header')
         <div class="row">
-            <div class="col-lg-2" style="z-index: 1;">
-                @yield('left-sideBar')
-            </div>
-            <div class="col-lg-8" style="z-index: 0;">
-                @yield('body-content')
-            </div>
-            <div class="col-lg-2"></div>
+            @yield('left-sideBar')
+            @yield('body-content')
         </div>
     </div>
 </body>

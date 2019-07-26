@@ -9,5 +9,5 @@
 @endsection
 
 @section('body-content')
-<home-view></home-view>
+<signup-view></signup-view>
 @endsection

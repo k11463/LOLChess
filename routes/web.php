@@ -14,6 +14,9 @@
 Route::get('/', function () {
     return view('index');
 });
+Route::get('signup', function () {
+    return view('signup');
+});
 
 Route::post('/login', 'UserController@login');
 Route::post('loginOnlyToken', 'UserController@loginToken');

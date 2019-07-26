@@ -1,80 +1,94 @@
 <template>
-  <div class="bg" :class="{bg_open: !switchStatus}">
-    <span class="boxSwitch" @click="switchStatus = !switchStatus">
-      <img :src="boxSwitchImgUrl" alt />
-    </span>
+  <div class="col-lg-2" style="z-index: 1;">
+    <div class="bg" :class="{bg_open: !switchStatus}">
+      <span class="boxSwitch" @click="switchStatus = !switchStatus">
+        <img :src="boxSwitchImgUrl" alt />
+      </span>
 
-    <div class="accordion" id="accordionExample">
-      <div class="card">
-        <div class="card-header" id="headingOne">
-          <h2 class="mb-0">
-            <button
-              class="btn btn-link"
-              type="button"
-              data-toggle="collapse"
-              data-target="#collapseOne"
-            >會員登入</button>
-          </h2>
-        </div>
+      <div class="accordion" id="accordionExample">
+        <div class="card">
+          <div class="card-header" id="headingOne">
+            <h2 class="mb-0">
+              <button
+                class="btn btn-link"
+                type="button"
+                data-toggle="collapse"
+                data-target="#collapseOne"
+                v-if="!login"
+              >會員登入</button>
+              <button
+                class="btn btn-link"
+                type="button"
+                data-toggle="collapse"
+                data-target="#collapseOne"
+                v-if="login"
+              >會員資料</button>
+            </h2>
+          </div>
 
-        <div
-          id="collapseOne"
-          class="collapse show"
-          aria-labelledby="headingOne"
-          data-parent="#accordionExample"
-        >
-          <div class="card-body">
-            <div v-if="!login" class="form">
-              <div class="form-group">
-                <label for="exampleInputEmail1">帳號Account</label>
-                <input
-                  type="account"
-                  class="form-control"
-                  id="exampleInputEmail1"
-                  aria-describedby="emailHelp"
-                  placeholder="Enter account"
-                  v-model="loginForm.account"
-                  @keyup.enter="Login"
-                />
+          <div
+            id="collapseOne"
+            class="collapse show"
+            aria-labelledby="headingOne"
+            data-parent="#accordionExample"
+          >
+            <div class="card-body">
+              <div v-if="!login" class="form">
+                <div class="form-group">
+                  <label for="exampleInputEmail1">帳號Account</label>
+                  <input
+                    type="account"
+                    class="form-control"
+                    id="exampleInputEmail1"
+                    aria-describedby="emailHelp"
+                    placeholder="Enter account"
+                    v-model="loginForm.account"
+                    @keyup.enter="Login"
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputPassword1">密碼Password</label>
+                  <input
+                    type="password"
+                    class="form-control"
+                    id="exampleInputPassword1"
+                    placeholder="Password"
+                    v-model="loginForm.password"
+                    @keyup.enter="Login"
+                  />
+                </div>
+                <div class="form-group form-check">
+                  <input
+                    type="checkbox"
+                    class="form-check-input"
+                    id="exampleCheck1"
+                    :checked="rememberAccount"
+                    @click="rememberAccount = !rememberAccount"
+                  />
+                  <label class="form-check-label" for="exampleCheck1">記住帳號remenber account</label>
+                </div>
+                <div class="form-group">
+                  <button class="btn btn-primary" @click="Login">登入login</button>
+                  <button
+                    class="btn btn-secondary"
+                    style="float:right;"
+                    @click="ChangeUrl('http://127.0.0.1:8000/signup')"
+                  >註冊帳號Signup</button>
+                </div>
               </div>
-              <div class="form-group">
-                <label for="exampleInputPassword1">密碼Password</label>
-                <input
-                  type="password"
-                  class="form-control"
-                  id="exampleInputPassword1"
-                  placeholder="Password"
-                  v-model="loginForm.password"
-                  @keyup.enter="Login"
-                />
-              </div>
-              <div class="form-group form-check">
-                <input
-                  type="checkbox"
-                  class="form-check-input"
-                  id="exampleCheck1"
-                  :checked="rememberAccount"
-                  @click="rememberAccount = !rememberAccount"
-                />
-                <label class="form-check-label" for="exampleCheck1">記住帳號remenber account</label>
-              </div>
-              <div class="form-group">
-                <button class="btn btn-primary" @click="Login">登入login</button>
-                <button class="btn btn-secondary" style="float:right;">註冊帳號Signup</button>
-              </div>
-            </div>
 
-            <div class="form" v-if="login">
-              <div class="form-group login">
-                會員名稱UserName：
-                <div class="name">{{ user.name }}</div>
-              </div>
-              <div class="form-group login">
-                會員階級UserLevel：
-                <div class="name">{{ user.level }}</div>
-              </div>
-              <div class="form-group login">
-                <button type="submit" class="btn btn-primary" @click="Logout">登出logout</button>
+              <div class="form" v-if="login">
+                <div class="form-group login">
+                  會員名稱UserName：
+                  <div class="name">{{ user.name }}</div>
+                </div>
+                <div class="form-group login">
+                  會員階級UserLevel：
+                  <div class="name">{{ user.level }}</div>
+                </div>
+                <div class="form-group login">
+                  <button type="submit" class="btn btn-primary" @click="Logout">登出logout</button>
+                </div>
               </div>
             </div>
           </div>
@@ -149,6 +163,9 @@ export default {
     Logout() {
       localStorage.removeItem("token");
       window.location.reload();
+    },
+    ChangeUrl(val) {
+      window.location.href = val;
     }
   }
 };
@@ -164,7 +181,6 @@ export default {
   border: 1px solid rgb(165, 165, 165);
   height: 80vh;
   min-height: 680px;
-  margin-top: 80px;
   box-shadow: -2px 4px 6px 0px rgba($color: #000000, $alpha: 0.4);
   position: relative;
   transform: translateX(0%);
